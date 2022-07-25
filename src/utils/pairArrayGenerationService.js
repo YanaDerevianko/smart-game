@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 // СТВОРЕННЯ МАСИВУ ПАР ПРОСТИХ ЧИСЕЛ:
 
 //1. ФУНКЦІЯ ПЕРЕВІРКИ ЧИСЛА (ЧИ Є ПРОСТИМ)
@@ -17,7 +18,7 @@ const generateRandomNumber = (min, max) => {
     return number
 }
 
-// 3. ФУНКЦІЯ ПЕРЕВІРКИ МАСИВУ НА УНІКАЛЬНІСТЬ
+// 3. ФУНКЦІЯ ПЕРЕВІРКИ МАСИВУ НА УНІКАЛЬНІСТЬ (повертає масив унікальних значень)
 const unique = (arr) => {
     let result = [];
     for (let str of arr) {
@@ -45,6 +46,7 @@ export const createRandomArray = () => {
     const structuredDataArray = [];
     finalArray.forEach(item => {
         structuredDataArray.push({
+            id: uuidv4(),
             value: item,
             status:""
         })

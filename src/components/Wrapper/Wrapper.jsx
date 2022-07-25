@@ -1,6 +1,5 @@
 import { React, useState } from "react";
 import { Card } from "components/Card/Card";
-// import { v4 as uuidv4 } from "uuid";
 import scss from "./Wrapper.module.scss";
 import { createRandomArray } from "utils/pairArrayGenerationService";
 
@@ -9,27 +8,30 @@ export const Wrapper = ({ numbers }) => {
   const [items, setItems] = useState(array);
   const [prev, setPrev] = useState(-1);
 
-  const check = (current) => {
-    if (numbers[current].value === numbers[prev].value) {
-      numbers[current].status = "correct";
-      numbers[prev].status = "correct";
+  const check = (id) => {
+    let currNum = numbers.find(number => number.id === id);
+    let prevNum = numbers.find(number => number.id === prev);
+    if (currNum.value === prevNum.value) {
+      currNum.status = "correct";
+      prevNum.status = "correct";
       setItems([...items]);
       setPrev(-1);
     } else {
-      numbers[current].status = "incorrect";
-      numbers[prev].status = "incorrect";
+      currNum.status = "incorrect";
+      prevNum.status = "incorrect";
       setItems([...items]);
       setTimeout(() => {
-        numbers[current].status = "";
-        numbers[prev].status = "";
+        currNum.status = "";
+        prevNum.status = "";
         setItems([...items]);
         setPrev(-1);
       }, 1000);
     }
   };
   const handleClick = (id) => {
+    let activeNum = numbers.find(number => number.id === id);
     if (prev === -1) {
-      numbers[id].status = "active";
+      activeNum.status = "active";
       setItems([...items]);
       setPrev(id);
     } else {
@@ -39,10 +41,10 @@ export const Wrapper = ({ numbers }) => {
 
   return (
     <div className={scss.wrapper}>
-      {numbers.map(({ value, status }, idx) => (
+      {numbers.map(({id, value, status }, idx) => (
         <Card
           key={idx}
-          id={idx}
+          id={id}
           value={value}
           status={status}
           handleClick={handleClick}
