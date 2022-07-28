@@ -1,21 +1,55 @@
-import { React, useState } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import { Card } from "components/Card/Card";
 import scss from "./Wrapper.module.scss";
-import { createRandomArray } from "utils/pairArrayGenerationService";
 
 export const Wrapper = ({ numbers }) => {
-  const array = createRandomArray();
-  const [items, setItems] = useState(array);
-  const [prev, setPrev] = useState(-1);
+  const [items, setItems] = useState(numbers);
+  const [prev, setPrev] = useState(null);
+  const [counterClick, setCounterClick] = useState(0);
+  const [disabled, setDisabled] = useState(true);
+  const [notClicableWrapper, setNotClicableWrapper] = useState(true);
+
+  const firstRender = useRef(true);
+
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setNotClicableWrapper(false);
+  //   }, 5000);
+  // }, []);
+
+  useEffect(() => {
+    if(firstRender.current) {
+      firstRender.current = false
+      setTimeout(() => {
+        setDisabled(false);
+      }, 5000);
+      return
+    }
+    
+    if (counterClick >= 2) {
+      setDisabled(true);
+      setTimeout(() => {
+        setDisabled(false);
+        setCounterClick(0);
+        return;
+      }, 1500);
+      return;
+    }
+  }, [counterClick]);
+
+  // setTimeout(() => {
+  //   setNotClicableWrapper(false);
+  // }, 5000);
 
   const check = (id) => {
-    let currNum = numbers.find(number => number.id === id);
-    let prevNum = numbers.find(number => number.id === prev);
+    let currNum = items.find((item) => item.id === id);
+    let prevNum = items.find((item) => item.id === prev);
     if (currNum.value === prevNum.value) {
       currNum.status = "correct";
       prevNum.status = "correct";
       setItems([...items]);
-      setPrev(-1);
+      setPrev(null);
     } else {
       currNum.status = "incorrect";
       prevNum.status = "incorrect";
@@ -23,28 +57,40 @@ export const Wrapper = ({ numbers }) => {
       setTimeout(() => {
         currNum.status = "";
         prevNum.status = "";
+
         setItems([...items]);
-        setPrev(-1);
+        setPrev(null);
       }, 1000);
     }
   };
+
   const handleClick = (id) => {
-    let activeNum = numbers.find(number => number.id === id);
-    if (prev === -1) {
-      activeNum.status = "active";
-      setItems([...items]);
-      setPrev(id);
-    } else {
-      check(id);
+    setCounterClick((prevState) => prevState + 1);
+
+    if (counterClick < 2) {
+      let activeNum = items.find((item) => item.id === id);
+      if (!prev) {
+        activeNum.status = "active";
+        setPrev(id);
+        setItems([...items]);
+      } else {
+        check(id);
+      }
+      return;
     }
   };
 
   return (
-    <div className={scss.wrapper}>
-      {numbers.map(({id, value, status }, idx) => (
+    <div
+      className={`${scss.wrapper} ${
+        notClicableWrapper ? '' : ""
+      }`}
+    >
+      {numbers.map(({ id, value, status }, idx) => (
         <Card
           key={idx}
           id={id}
+          disabled={disabled}
           value={value}
           status={status}
           handleClick={handleClick}

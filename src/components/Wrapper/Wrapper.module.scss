@@ -6,4 +6,7 @@
     grid-template-rows: repeat(3, 1fr);
     gap: 8px;
     margin: 50px auto;
+    &.pointer-event-none {
+        pointer-events: none;
+      }
 }

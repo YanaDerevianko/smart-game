@@ -56,4 +56,4 @@ export const createRandomArray = () => {
     }
     return structuredDataArray.sort(shakeArray);
 }
-console.log(createRandomArray())
+// console.log(createRandomArray())
