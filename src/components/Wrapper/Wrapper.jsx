@@ -7,26 +7,17 @@ export const Wrapper = ({ numbers }) => {
   const [prev, setPrev] = useState(null);
   const [counterClick, setCounterClick] = useState(0);
   const [disabled, setDisabled] = useState(true);
-  const [notClicableWrapper, setNotClicableWrapper] = useState(true);
 
   const firstRender = useRef(true);
 
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setNotClicableWrapper(false);
-  //   }, 5000);
-  // }, []);
-
   useEffect(() => {
-    if(firstRender.current) {
-      firstRender.current = false
+    if (firstRender.current) {
+      firstRender.current = false;
       setTimeout(() => {
         setDisabled(false);
       }, 5000);
-      return
+      return;
     }
-    
     if (counterClick >= 2) {
       setDisabled(true);
       setTimeout(() => {
@@ -37,10 +28,6 @@ export const Wrapper = ({ numbers }) => {
       return;
     }
   }, [counterClick]);
-
-  // setTimeout(() => {
-  //   setNotClicableWrapper(false);
-  // }, 5000);
 
   const check = (id) => {
     let currNum = items.find((item) => item.id === id);
@@ -57,7 +44,6 @@ export const Wrapper = ({ numbers }) => {
       setTimeout(() => {
         currNum.status = "";
         prevNum.status = "";
-
         setItems([...items]);
         setPrev(null);
       }, 1000);
@@ -66,7 +52,6 @@ export const Wrapper = ({ numbers }) => {
 
   const handleClick = (id) => {
     setCounterClick((prevState) => prevState + 1);
-
     if (counterClick < 2) {
       let activeNum = items.find((item) => item.id === id);
       if (!prev) {
@@ -81,11 +66,7 @@ export const Wrapper = ({ numbers }) => {
   };
 
   return (
-    <div
-      className={`${scss.wrapper} ${
-        notClicableWrapper ? '' : ""
-      }`}
-    >
+    <div className={scss.wrapper}>
       {numbers.map(({ id, value, status }, idx) => (
         <Card
           key={idx}
