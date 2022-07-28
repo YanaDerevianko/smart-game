@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/smart-game/static/css/main.7b969afe.css",
+    "main.css": "/smart-game/static/css/main.c96e78b8.css",
     "main.js": "/smart-game/static/js/main.a1b4c2e3.js",
     "index.html": "/smart-game/index.html",
-    "main.7b969afe.css.map": "/smart-game/static/css/main.7b969afe.css.map",
+    "main.c96e78b8.css.map": "/smart-game/static/css/main.c96e78b8.css.map",
     "main.a1b4c2e3.js.map": "/smart-game/static/js/main.a1b4c2e3.js.map"
   },
   "entrypoints": [
-    "static/css/main.7b969afe.css",
+    "static/css/main.c96e78b8.css",
     "static/js/main.a1b4c2e3.js"
   ]
 }
